@@ -33,7 +33,7 @@ s = requests.Session()
 s.auth = (client_id, api_key)
 
 # Define URL and parameters
-activity_url = 'https://api.amp.sourcefire.com/v1/computers/activity'
+activity_url = 'https://api.amp.cisco.com/v1/computers/activity'
 q = process_sha256
 payload = {'q': q}
 
@@ -62,7 +62,7 @@ for guid in computer_guids:
     print 'Querying: {} - {}'.format(computer_guids[guid]['hostname'],guid)
 
     payload = {'q' : process_sha256}
-    url = 'https://api.amp.sourcefire.com/v1/computers/{}/trajectory'.format(guid)
+    url = 'https://api.amp.cisco.com/v1/computers/{}/trajectory'.format(guid)
     r = s.get(url, auth=(client_id,api_key), params=payload)
 
     # # Decode JSON response 
