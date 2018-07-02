@@ -10,4 +10,6 @@ To use this script you provide a SHA256 as a command line paramter:
 python sha256_to_network_connections.py a253ae6f8fb5733319545b34f3bc1266463c2b40c67bcbbf33a089f82ffd73d0
 ```
 
-For use in large environments with over 3000 endpoints it is possible to hit the hourly API rate limit and not get a complete list.
+The script prints the connection information to the console and will write a file to disk containing the unique remote IP and port pairs.
+
+NOTE: For use in large environments with over 3000 endpoints it is possible to hit the hourly API rate limit and not get a complete list.
