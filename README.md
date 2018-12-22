@@ -7,7 +7,7 @@ This script searches an AMP for Endpoints environment for computers that have se
 NOTE: For use in large environments with over 3000 endpoints it is possible to hit the hourly API rate limit and not get a complete list.
 
 ### Before using you must update the following:
-The authentictaion parameters are set in the ```api.cfg``` :
+The authentictaion parameters are set in the ```api.cfg```
 - client_id 
 - api_key
 
