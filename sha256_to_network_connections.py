@@ -1,23 +1,19 @@
-import requests
-import ConfigParser
 import sys
+import configparser
+import requests
 
 # Specify the config file
 configFile = 'api.cfg'
 
 # Reading the config file to get settings
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read(configFile)
-
 client_id = config.get('AMPE', 'client_id')
-client_id = str.rstrip(client_id)
-
 api_key = config.get('AMPE', 'api_key')
-api_key = str.rstrip(api_key)
 
 # Validate a command line parameter was provided
 if len(sys.argv) < 2:
-    sys.exit('Usage:\n %s a253ae6f8fb5733319545b34f3bc1266463c2b40c67bcbbf33a089f82ffd73d0' % sys.argv[0])
+    sys.exit('Usage:\n %s 438b6ccd84f4dd32d9684ed7d58fd7d1e5a75fe3f3d12ab6c788e6bb0ffad5e7' % sys.argv[0])
 
 # Store the command line parameter
 process_sha256 = sys.argv[1]
@@ -53,13 +49,13 @@ for entry in data:
         hostname = entry['hostname']
         computer_guids[connector_guid] = {'hostname':hostname}
 
-print 'Computers found: {}'.format(len(computer_guids))
+print('Computers found: {}'.format(len(computer_guids)))
 
 # Query trajectory for each GUID 
 for guid in computer_guids:
 
     # Print the hostname and GUID that is about to be queried
-    print 'Querying: {} - {}'.format(computer_guids[guid]['hostname'],guid)
+    print('Querying: {} - {}'.format(computer_guids[guid]['hostname'],guid))
 
     payload = {'q' : process_sha256}
     url = 'https://api.amp.cisco.com/v1/computers/{}/trajectory'.format(guid)
@@ -95,11 +91,11 @@ for guid in computer_guids:
 
             # Print information for outgoing connection
             if direction == 'Outgoing connection from':
-                print '  {} {}:{} -> {}:{}'.format(protocol,local_ip,local_port,remote_ip,remote_port)
+                print('  {} {}:{} -> {}:{}'.format(protocol,local_ip,local_port,remote_ip,remote_port))
 
             # Print information for incoming connection
             if direction == 'Incoming connection from':
-                print '  {} {}:{} <- {}:{}'.format(protocol,local_ip,local_port,remote_ip,remote_port)
+                print('  {} {}:{} <- {}:{}'.format(protocol,local_ip,local_port,remote_ip,remote_port))
 
         # Parse DFC (Device Flow Correlation) events
         if event_type == 'DFC Threat Detected':
@@ -118,14 +114,15 @@ for guid in computer_guids:
                 remote_ips[remote_ip]['ports'].append(remote_port)
 
             # Print information for communication between two hosts (DFC events do not indicate direction)
-            print '  N/A {}:{} - {}:{}'.format(local_ip,local_port,remote_ip,remote_port)
+            print('  N/A {}:{} - {}:{}'.format(local_ip,local_port,remote_ip,remote_port))
 
 # If IPs were found, write them to a CSV file
 if len(remote_ips) > 0:
-    print 'Writing {}_remote_ips.csv'.format(process_sha256)
+    print('Writing {}_remote_ips.csv'.format(process_sha256))
     with open('{}_remote_ips.csv'.format(process_sha256),'w') as f:
         for ip in remote_ips:
             for port in remote_ips[ip]['ports']:
                 f.write('{},{}\n'.format(ip,port))
 else:
-    print 'No network traffic observed by AMP for Endpoint'
+    print('No network traffic observed by AMP for Endpoint')
+    
